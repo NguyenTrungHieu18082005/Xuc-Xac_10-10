@@ -1,35 +1,36 @@
 <template>
   <div class="Funcition">
-    <div class="batDau Stop">Chọn Bắt Đầu Để Chơi</div>
-    <div class="thanh thanh1">
-      <div class="choi">
-        <i class="fa-sharp-duotone fa-solid fa-circle-play" title="Bắt Đầu"></i>
-      </div>
-      <div class="admin">
-        <i class="fa-sharp-duotone fa-solid fa-user-gear" title="Admin"></i>
-      </div>
+    <div class="batDauChoi" :class="{ Stop: this.BatDau }">
+      Chọn Bắt Đầu Để Chơi
     </div>
-    <div class="thanh thanh2">
-      <div class="luatChoi">
-        <i class="fa-sharp fa-solid fa-info" title="Luật Chơi"></i>
-      </div>
-      <div class="nap">
-        <i
-          class="fa-sharp-duotone fa-solid fa-money-bill-transfer"
-          title="Nạp Tiền"
-        ></i>
-      </div>
+
+    <div class="t thanh1">
+      <i
+        class="fa-sharp-duotone fa-solid fa-circle-play batDau"
+        title="Bắt Đầu"
+        @click="batdau"
+      ></i>
+      <i
+        class="fa-sharp fa-solid fa-info luatChoi"
+        title="Luật Chơi"
+        @click="luatchoi"
+      ></i>
+      <i
+        class="fa-sharp-duotone fa-solid fa-rotate choiLai"
+        title="Chơi Lại"
+      ></i>
     </div>
-    <div class="thanh thanh3">
-      <div class="choiLai">
-        <i class="fa-sharp-duotone fa-solid fa-rotate" title="Chơi Lại"></i>
-      </div>
-      <div class="rutTien">
-        <i
-          class="fa-sharp fa-solid fa-hand-holding-dollar"
-          title="Rút Tiền"
-        ></i>
-      </div>
+
+    <div class="t thanh2">
+      <i class="fa-sharp-duotone fa-solid fa-user-gear admin" title="Admin"></i>
+      <i
+        class="fa-sharp-duotone fa-solid fa-money-bill-transfer napTien"
+        title="Nạp Tiền"
+      ></i>
+      <i
+        class="fa-sharp fa-solid fa-hand-holding-dollar rutTien"
+        title="Rút Tiền"
+      ></i>
     </div>
   </div>
 </template>
@@ -37,73 +38,92 @@
 <script>
 export default {
   name: "Funcition",
+  methods: {
+    batdau() {
+      this.$emit("xlBatDau");
+      this.$emit("xlThoiGian");
+    },
+    luatchoi() {
+      this.$emit("xlLuatChoi");
+    },
+  },
+  props: {
+    BatDau: { type: Boolean, default: false },
+  },
 };
 </script>
 
 <style>
 .Funcition {
-  left: 1%;
+  left: 2%;
   top: 16%;
   position: absolute;
-  width: 680px;
-  height: 200px;
-  /* border: 1px solid black; */
-  border-radius: 130px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  width: 660px;
+  height: 1px;
+  /* background-color: #000000; */
 }
-.batDau {
+.batDauChoi.Stop {
+  visibility: hidden;
+}
+.batDauChoi {
   width: 580px;
   height: 210px;
   border-radius: 110px;
 
   position: absolute;
-  top: 50%;
+  top: 100%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -5%);
   background-color: #3fbbec;
+  /* border: 1px solid #000; */
   z-index: 3;
   text-align: center;
   font-size: 50px;
   font-weight: bold;
   padding-top: 50px;
+
+  /* visibility: hidden; */
 }
-.batDau .Stop {
-  visibility: hidden;
-}
-.Funcition .thanh {
-  width: 670px;
-  height: 40px;
+.t {
+  width: 40px;
+  height: 200px;
   /* border: 1px solid #d807b8; */
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
 }
-.thanh div {
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.831);
+
+.thanh1 {
+  left: 0;
+}
+.thanh2 {
+  right: 0;
+}
+
+.Funcition .t i {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(to bottom, #2525ffe6, #58a6eb);
   border-radius: 50%;
-  cursor: pointer;
   color: whitesmoke;
+  border: 1px solid whitesmoke;
+  cursor: pointer;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to bottom, #2525ffe6, #58a6eb);
+
+  transition: all 0.3s ease;
 }
-.thanh div:hover {
+.Funcition .t i:hover {
   background: rgb(37, 37, 186);
 }
-.thanh div i {
-  font-size: 20px;
+.t .luatChoi {
+  margin-left: -15px;
 }
-
-.Funcition .thanh1,
-.Funcition .thanh3 {
-  width: 655px;
-  margin-left: 15px;
-}
-.Funcition .thanh2 {
-  width: 685px;
+.t .napTien {
+  margin-left: 18px;
 }
 </style>

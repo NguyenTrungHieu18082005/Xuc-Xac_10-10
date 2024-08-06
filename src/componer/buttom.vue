@@ -1,8 +1,16 @@
 <template>
-  <div class="Button">
+  <div
+    class="Button"
+    :class="{ on: this.CuocTien1[0].s1 || this.CuocTien1[1].s2 }"
+  >
     <div class="menuTienCuoc">
       <ul>
-        <li class="liDatCuoc" v-for="(i, id) in datcuoc" :key="id">
+        <li
+          class="liDatCuoc"
+          v-for="(i, id) in datcuoc"
+          :key="id"
+          @click="click(i)"
+        >
           <button>{{ i }}</button>
         </li>
       </ul>
@@ -20,7 +28,13 @@
 export default {
   name: "Button",
   props: {
-    datcuoc: { type: String, default: null },
+    CuocTien1: { type: Array, default: null },
+    datcuoc: { type: Array, default: null },
+  },
+  methods: {
+    click(i) {
+      this.$emit("xlClick", i);
+    },
   },
 };
 </script>
@@ -34,8 +48,12 @@ export default {
   width: 600px;
   height: 30px;
   position: absolute;
-  /* opacity: 0; */
-  /* visibility: hidden; */
+  opacity: 0;
+  visibility: hidden;
+}
+.Button.on {
+  opacity: 1;
+  visibility: visible;
 }
 .menuTienCuoc {
   width: 600px;
