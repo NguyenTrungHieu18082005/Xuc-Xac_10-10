@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <display
+      :Scale1="Scale1"
       :xlRandomTongTienCuoc="xlRandomTongTienCuoc"
       :SoNguoiChoi="SoNguoiChoi"
       :xlRandomTongTien="xlRandomTongTien"
@@ -34,14 +35,13 @@ import Display from "./componer/display.vue";
 import Buttom from "./componer/buttom.vue";
 import Funcition from "./componer/funcition.vue";
 export default {
-  Name: "App",
+  tongTienCuoc: "App",
   data() {
     return {
-      // HienThiTongTienCuoc: [{ s1: "0", s2: "0" }],
-      HienThiTongTienCuoc: [{ value: 0 }, { value: 0 }],
-      tt: ["0", "0"],
-      TongTienCuoc: [{ s1: 0, s2: 0 }],
-      SoNguoiChoi: [{ s1: 0, s2: 0 }],
+      Scale1: [{ scale: false }, { scale: false }],
+      HienThiTongTienCuoc: ["0", "0"],
+      TongTienCuoc: [{ value: 0 }, { value: 0 }],
+      SoNguoiChoi: [{ value: 0 }, { value: 0 }],
       TongTien: 300000,
       RandomTongTien: "600000",
       HienThiTongTien: false,
@@ -78,13 +78,19 @@ export default {
     },
 
     xlRandomTongTienCuoc() {
-      this.tt[0] = this.HienThiTongTienCuoc[0].value.toLocaleString("vi-VN", {
-        style: "decimal",
-      });
-      this.tt[1] = this.HienThiTongTienCuoc[1].value.toLocaleString("vi-VN", {
-        style: "decimal",
-      });
-      return this.tt;
+      this.HienThiTongTienCuoc[0] = this.TongTienCuoc[0].value.toLocaleString(
+        "vi-VN",
+        {
+          style: "decimal",
+        }
+      );
+      this.HienThiTongTienCuoc[1] = this.TongTienCuoc[1].value.toLocaleString(
+        "vi-VN",
+        {
+          style: "decimal",
+        }
+      );
+      return this.HienThiTongTienCuoc;
     },
   },
   methods: {
@@ -117,19 +123,22 @@ export default {
       // this.xlSoNguoiChoi_xlTongTienCuoc(ThoiGian2, this.SoNguoiChoi[0], 5, 20);
       this.xlSoNguoiChoi_xlTongTienCuoc(
         ThoiGian2,
-        this.HienThiTongTienCuoc[0],
+        this.SoNguoiChoi[0],
+        this.TongTienCuoc[0],
         100000,
         50000000,
-        1000
+        900,
+        this.Scale1[0]
       );
       this.xlSoNguoiChoi_xlTongTienCuoc(
         ThoiGian2,
-        this.HienThiTongTienCuoc[1],
+        this.SoNguoiChoi[1],
+        this.TongTienCuoc[1],
         100000,
         50000000,
-        2000
+        850,
+        this.Scale1[1]
       );
-
       let tg = setInterval(() => {
         if (this.ThoiGian-- === 0) {
           clearInterval(tg);
@@ -140,20 +149,31 @@ export default {
       }, 1000);
     },
 
-    xlSoNguoiChoi_xlTongTienCuoc(timeSoNguoiChoi, Name, min, max, time) {
+    xlSoNguoiChoi_xlTongTienCuoc(
+      timeSoNguoiChoi,
+      soNguoiChoi,
+      tongTienCuoc,
+      min,
+      max,
+      time,
+      scale1
+    ) {
       let count,
         x2TimeSoNguoiChoi = false,
         lapLan1 = 0;
-      console.log("Name = " + Name.value);
-
+      const self = this;
       function startInterval(newTime) {
         if (count) {
           clearInterval(count);
         }
 
         count = setInterval(() => {
-          Name.value += Math.floor(Math.random() * max) + min;
-          // Name.s2 += Math.floor(Math.random() * max) + min;
+          scale1.scale = !scale1.scale;
+
+          soNguoiChoi.value +=
+            Math.floor((Math.random() * max) / 2000000) + min / 20000;
+          tongTienCuoc.value += Math.floor(Math.random() * max) + min;
+
           if (x2TimeSoNguoiChoi) {
             timeSoNguoiChoi *= 2;
             x2TimeSoNguoiChoi = false;
@@ -162,7 +182,7 @@ export default {
 
           timeSoNguoiChoi--;
           if (timeSoNguoiChoi === 5 && lapLan1 === 0) {
-            startInterval(200);
+            startInterval(500);
             x2TimeSoNguoiChoi = true;
           } else if (timeSoNguoiChoi <= 0) {
             clearInterval(count);
@@ -173,37 +193,6 @@ export default {
       startInterval(time);
     },
 
-    // xlSoNguoiChoi_xlTongTienCuoc2(timeSoNguoiChoi, Name, min, max) {
-    //   let count,
-    //     x2TimeSoNguoiChoi = false,
-    //     lapLan1 = 0;
-
-    //   function startInterval(newTime) {
-    //     if (count) {
-    //       clearInterval(count);
-    //     }
-
-    //     count = setInterval(() => {
-    //       // Name.s1 += Math.floor(Math.random() * max) + min;
-    //       Name.s2 += Math.floor(Math.random() * max) + min;
-    //       if (x2TimeSoNguoiChoi) {
-    //         timeSoNguoiChoi *= 2;
-    //         x2TimeSoNguoiChoi = false;
-    //         lapLan1 = 1;
-    //       }
-
-    //       timeSoNguoiChoi--;
-    //       if (timeSoNguoiChoi === 5 && lapLan1 === 0) {
-    //         startInterval(500);
-    //         x2TimeSoNguoiChoi = true;
-    //       } else if (timeSoNguoiChoi === 0) {
-    //         clearInterval(count);
-    //       }
-    //     }, newTime);
-    //   }
-
-    //   startInterval(850);
-    // },
     quayXucXac(time) {
       let { ThoiGianQuayXucXac } = this;
       ThoiGianQuayXucXac = time;
@@ -262,8 +251,8 @@ export default {
         this.ThoiGianVanMoi--;
         if (this.ThoiGianVanMoi === 0) {
           clearInterval(tgvm);
-          this.SoNguoiChoi[0].s1 = this.SoNguoiChoi[0].s2 = 0;
-          this.TongTienCuoc[0].s1 = this.TongTienCuoc[0].s2 = 0;
+          this.SoNguoiChoi[0].value = this.SoNguoiChoi[1].value = 0;
+          this.TongTienCuoc[0].value = this.TongTienCuoc[1].value = 0;
           this.xlThoiGian();
           this.ThoiGianVanMoi = time;
           this.HienThiThoiGianVanMoi = !this.HienThiThoiGianVanMoi; // close time Dices

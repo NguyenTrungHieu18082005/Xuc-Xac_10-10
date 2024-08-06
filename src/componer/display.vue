@@ -5,18 +5,20 @@
     <div class="vienBanCo">
       <div class="nguoiChoi">
         <div class="nguoiChoi1">
-          <p class="soNguoiChoi">{{ SoNguoiChoi[0].s1 }}</p>
+          <p class="soNguoiChoi">{{ SoNguoiChoi[0].value }}</p>
           <i class="fa-solid fa-users"></i>
         </div>
         <div class="nguoiChoi2">
           <i class="fa-solid fa-users"></i>
-          <p class="soNguoiChoi">{{ SoNguoiChoi[0].s2 }}</p>
+          <p class="soNguoiChoi">{{ SoNguoiChoi[1].value }}</p>
         </div>
       </div>
 
       <div class="vien tai">
         <img class="img" src="/public/assets/tai.png" alt="tai" />
-        <p class="tongTienCuoc">{{ xlRandomTongTienCuoc[0] }}</p>
+        <p class="tongTienCuoc" :class="{ on: this.Scale1[0].scale }">
+          {{ xlRandomTongTienCuoc[0] }}
+        </p>
         <button
           class="cuoc Tien1"
           :class="{ on: this.indexTenTienCuoc[0].s1 === 1 }"
@@ -29,7 +31,9 @@
 
       <div class="vien xiu">
         <img class="img" src="/public/assets/xiu.png" alt="tai" />
-        <p class="tongTienCuoc">{{ xlRandomTongTienCuoc[1] }}</p>
+        <p class="tongTienCuoc" :class="{ on: this.Scale1[1].scale }">
+          {{ xlRandomTongTienCuoc[1] }}
+        </p>
         <button
           class="cuoc Tien2"
           :class="{ on: this.indexTenTienCuoc[1].s2 === 1 }"
@@ -113,8 +117,9 @@ export default {
     };
   },
   props: {
-    xlRandomTongTienCuoc: { typeof: Array, default: [0, 0] },
-    SoNguoiChoi: { type: Array, default: [0] },
+    Scale1: { type: Array, default: [false, false] },
+    xlRandomTongTienCuoc: { type: Array, default: ["0", "0"] },
+    SoNguoiChoi: { type: Array, default: [0, 0] },
     xlRandomTongTien: { type: Array, default: null },
     HienThiTongTien: { type: Boolean, default: false },
     HienThiThoiGianVanMoi: { type: Boolean, default: false },
@@ -161,7 +166,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #3fbbec;
+  background-color: #31bbf1;
 }
 
 .banco {
@@ -237,13 +242,20 @@ export default {
 }
 
 .vienBanCo .tongTienCuoc {
-  /* border: 1px solid #000; */
+  width: 230px;
+  border-radius: 15px;
   margin-top: 7px;
   text-align: center;
-  color: orangered;
+  color: rgb(255, 196, 0);
+  background: linear-gradient(to right, #fdffff00, #4444f4, #fdffff00);
   font-size: 23px;
   font-family: "Anton", sans-serif;
   font-weight: 500;
+  letter-spacing: 2px;
+}
+.vienBanCo .tongTienCuoc.on {
+  transform: scale(1.1);
+  /* background: red; */
 }
 .cuoc {
   width: 100px;
