@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <display
-      :Scale1="Scale1"
+      :HienThiTienDaCuoc="HienThiTienDaCuoc"
+      :DisabledCuoc="DisabledCuoc"
+      :TienCuoc="TienCuoc"
+      :indexTenCuoc="indexTenCuoc"
+      :ScaleTongTien="ScaleTongTien"
       :xlRandomTongTienCuoc="xlRandomTongTienCuoc"
       :SoNguoiChoi="SoNguoiChoi"
       :xlRandomTongTien="xlRandomTongTien"
@@ -17,7 +21,12 @@
       :Dices="Dices"
     />
 
-    <buttom @xlClick="xlClick" :datcuoc="datcuoc" :CuocTien1="CuocTien1" />
+    <buttom
+      :HienThiFileButton="HienThiFileButton"
+      @xlHuy="xlHuy"
+      @xlMenuCuoc="xlMenuCuoc"
+      :datcuoc="datcuoc"
+    />
 
     <funcition
       @xlThoiGian="xlThoiGian"
@@ -38,14 +47,19 @@ export default {
   tongTienCuoc: "App",
   data() {
     return {
-      Scale1: [{ scale: false }, { scale: false }],
+      HienThiTienDaCuoc: [0, 0],
+      DisabledCuoc: false,
+      TienCuoc: 0,
+      indexTenCuoc: [0, 0],
+      HienThiFileButton: false,
+
+      ScaleTongTien: [{ scale: false }, { scale: false }],
       HienThiTongTienCuoc: ["0", "0"],
       TongTienCuoc: [{ value: 0 }, { value: 0 }],
       SoNguoiChoi: [{ value: 0 }, { value: 0 }],
       TongTien: 300000,
       RandomTongTien: "600000",
       HienThiTongTien: false,
-      CuocTien1: [{ s1: false }, { s2: false }],
       HienThiThoiGianVanMoi: false,
       ThoiGianVanMoi: 2,
       ThoiGianQuayXucXac: 5,
@@ -94,8 +108,22 @@ export default {
     },
   },
   methods: {
-    xlClick(e) {
-      var tiencuoc;
+    xlHuy(e) {
+      console.log("e = " + e);
+
+      if (e === "huy") {
+        this.DisabledCuoc = false;
+        this.TienCuoc = 0;
+      } else if (e === "datcuoc") {
+        this.DisabledCuoc = true;
+        this.HienThiTienDaCuoc[0] = this.HienThiTienDaCuoc[0] === 1 ? 2 : 0;
+        this.HienThiTienDaCuoc[1] = this.HienThiTienDaCuoc[1] === 1 ? 3 : 0; // dựa vào tham số xlCuocTien(e)
+      }
+      this.indexTenCuoc[0] = this.indexTenCuoc[1] = 0;
+      this.HienThiFileButton = false;
+    },
+    xlMenuCuoc(e) {
+      let tiencuoc;
       if (e.includes("K")) {
         tiencuoc = e.replace(/(\d+)K/, (match, p1) => {
           return p1 * 1000;
@@ -106,17 +134,14 @@ export default {
         });
       }
       tiencuoc = Number(tiencuoc);
-      console.log(tiencuoc);
+      console.log("tiencuoc = " + tiencuoc);
+
+      this.TienCuoc += tiencuoc;
     },
 
     xlCuocTien(e) {
-      // this.CuocTien = !this.CuocTien;
-
-      if (e === 0) {
-        this.CuocTien1[e].s1 = !this.CuocTien1[e].s1;
-      } else {
-        this.CuocTien1[e].s2 = !this.CuocTien1[e].s2;
-      }
+      this.DisabledCuoc = this.HienThiFileButton = true;
+      this.indexTenCuoc[e] = this.HienThiTienDaCuoc[e] = 1;
     },
     xlThoiGian() {
       let ThoiGian2 = this.ThoiGian;
@@ -128,7 +153,7 @@ export default {
         100000,
         50000000,
         900,
-        this.Scale1[0]
+        this.ScaleTongTien[0]
       );
       this.xlSoNguoiChoi_xlTongTienCuoc(
         ThoiGian2,
@@ -137,7 +162,7 @@ export default {
         100000,
         50000000,
         850,
-        this.Scale1[1]
+        this.ScaleTongTien[1]
       );
       let tg = setInterval(() => {
         if (this.ThoiGian-- === 0) {
@@ -156,19 +181,19 @@ export default {
       min,
       max,
       time,
-      scale1
+      ScaleTongTien
     ) {
       let count,
         x2TimeSoNguoiChoi = false,
         lapLan1 = 0;
-      const self = this;
+
       function startInterval(newTime) {
         if (count) {
           clearInterval(count);
         }
 
         count = setInterval(() => {
-          scale1.scale = !scale1.scale;
+          ScaleTongTien.scale = !ScaleTongTien.scale;
 
           soNguoiChoi.value +=
             Math.floor((Math.random() * max) / 2000000) + min / 20000;
@@ -250,6 +275,11 @@ export default {
       let tgvm = setInterval(() => {
         this.ThoiGianVanMoi--;
         if (this.ThoiGianVanMoi === 0) {
+          this.HienThiTienDaCuoc[0] =
+            this.HienThiTienDaCuoc[1] =
+            this.TienCuoc =
+              0;
+          this.DisabledCuoc = false;
           clearInterval(tgvm);
           this.SoNguoiChoi[0].value = this.SoNguoiChoi[1].value = 0;
           this.TongTienCuoc[0].value = this.TongTienCuoc[1].value = 0;

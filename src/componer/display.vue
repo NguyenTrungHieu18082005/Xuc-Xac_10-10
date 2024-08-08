@@ -16,32 +16,38 @@
 
       <div class="vien tai">
         <img class="img" src="/public/assets/tai.png" alt="tai" />
-        <p class="tongTienCuoc" :class="{ on: this.Scale1[0].scale }">
+        <p class="tongTienCuoc" :class="{ on: this.ScaleTongTien[0].scale }">
           {{ xlRandomTongTienCuoc[0] }}
         </p>
         <button
           class="cuoc Tien1"
-          :class="{ on: this.indexTenTienCuoc[0].s1 === 1 }"
+          :class="{ on: this.indexTenCuoc[0] === 1 }"
           @click="cuoctien1(0)"
+          :disabled="this.DisabledCuoc"
         >
-          {{ TenTienCuoc[indexTenTienCuoc[0].s1] }}
+          {{ TenTienCuoc()[indexTenCuoc[0]] }}
         </button>
-        <p class="tienCuoc">200.000.000</p>
+        <p class="tienDaCuoc" :class="{ on: this.HienThiTienDaCuoc[0] === 2 }">
+          {{ TenTienCuoc()[1] }}
+        </p>
       </div>
 
       <div class="vien xiu">
         <img class="img" src="/public/assets/xiu.png" alt="tai" />
-        <p class="tongTienCuoc" :class="{ on: this.Scale1[1].scale }">
+        <p class="tongTienCuoc" :class="{ on: this.ScaleTongTien[1].scale }">
           {{ xlRandomTongTienCuoc[1] }}
         </p>
         <button
           class="cuoc Tien2"
-          :class="{ on: this.indexTenTienCuoc[1].s2 === 1 }"
+          :class="{ on: this.indexTenCuoc[1] === 1 }"
           @click="cuoctien2(1)"
+          :disabled="this.DisabledCuoc"
         >
-          {{ TenTienCuoc[indexTenTienCuoc[1].s2] }}
+          {{ TenTienCuoc()[indexTenCuoc[1]] }}
         </button>
-        <p class="tienCuoc">200.000.000</p>
+        <p class="tienDaCuoc" :class="{ on: this.HienThiTienDaCuoc[1] === 3 }">
+          {{ TenTienCuoc()[1] }}
+        </p>
       </div>
     </div>
 
@@ -112,12 +118,16 @@ export default {
   name: "Display",
   data() {
     return {
-      TenTienCuoc: ["Cược", "0"],
-      indexTenTienCuoc: [{ s1: 0 }, { s2: 0 }],
+      TienCuocString: "0",
     };
   },
   props: {
-    Scale1: { type: Array, default: [false, false] },
+    HienThiTienDaCuoc: { type: Array, default: [0, 0] },
+    DisabledCuoc: { type: Boolean, default: false },
+    TienCuoc: { type: Number, default: [0, 0] },
+    indexTenCuoc: { type: Array, default: [0, 0] },
+
+    ScaleTongTien: { type: Array, default: [false, false] },
     xlRandomTongTienCuoc: { type: Array, default: ["0", "0"] },
     SoNguoiChoi: { type: Array, default: [0, 0] },
     xlRandomTongTien: { type: Array, default: null },
@@ -131,14 +141,21 @@ export default {
     BatDau: { type: Boolean, default: false },
     Dices: { type: Array, default: [1, 2, 3] },
   },
+
   methods: {
+    TenTienCuoc() {
+      this.TenCuocString = this.TienCuoc.toLocaleString("vi-VN", {
+        style: "decimal",
+      });
+
+      return ["Cược", this.TenCuocString];
+    },
+
     cuoctien1(e) {
       this.$emit("xlCuocTien", e);
-      this.indexTenTienCuoc[0].s1 = this.indexTenTienCuoc[0].s1 === 0 ? 1 : 0;
     },
     cuoctien2(e) {
       this.$emit("xlCuocTien", e);
-      this.indexTenTienCuoc[1].s2 = this.indexTenTienCuoc[1].s2 === 0 ? 1 : 0;
     },
   },
 };
@@ -242,7 +259,7 @@ export default {
 }
 
 .vienBanCo .tongTienCuoc {
-  width: 230px;
+  width: 220px;
   border-radius: 15px;
   margin-top: 7px;
   text-align: center;
@@ -252,6 +269,8 @@ export default {
   font-family: "Anton", sans-serif;
   font-weight: 500;
   letter-spacing: 2px;
+
+  transition: all 0.1s ease;
 }
 .vienBanCo .tongTienCuoc.on {
   transform: scale(1.1);
@@ -275,9 +294,18 @@ export default {
   background: #000;
 }
 
-.tienCuoc {
+.tienDaCuoc {
   font-weight: 900;
   margin-top: 5px;
+  letter-spacing: 1px;
+  font-weight: 900px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.tienDaCuoc.on {
+  opacity: 1;
+  visibility: visible;
 }
 
 .banTron {

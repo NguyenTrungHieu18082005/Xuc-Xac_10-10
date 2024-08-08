@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="Button"
-    :class="{ on: this.CuocTien1[0].s1 || this.CuocTien1[1].s2 }"
-  >
+  <div class="Button" :class="{ on: this.HienThiFileButton }">
     <div class="menuTienCuoc">
       <ul>
         <li
@@ -18,8 +15,8 @@
 
     <div class="chucnangButton">
       <button class="button-blue">TẤT CẢ</button>
-      <button class="button-gold">ĐẶT CƯỢC</button>
-      <button class="button-red">HỦY</button>
+      <button class="button-gold" @click="huy('datcuoc')">ĐẶT CƯỢC</button>
+      <button class="button-red" @click="huy('huy')">HỦY</button>
     </div>
   </div>
 </template>
@@ -28,12 +25,17 @@
 export default {
   name: "Button",
   props: {
-    CuocTien1: { type: Array, default: null },
+    HienThiFileButton: { type: Boolean, default: false },
+    Disabled: { type: Boolean, default: false },
     datcuoc: { type: Array, default: null },
   },
   methods: {
+    huy(e) {
+      this.$emit("xlHuy", e);
+    },
     click(i) {
-      this.$emit("xlClick", i);
+      this.$emit("xlMenuCuoc", i);
+      console.log("xl = " + i);
     },
   },
 };
