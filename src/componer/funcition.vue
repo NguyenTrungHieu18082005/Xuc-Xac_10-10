@@ -9,6 +9,7 @@
         class="fa-sharp-duotone fa-solid fa-circle-play batDau"
         title="Bắt Đầu"
         @click="batdau"
+        :class="{ disabledBatDau: this.isDisabled }"
       ></i>
       <i
         class="fa-sharp fa-solid fa-info luatChoi"
@@ -38,10 +39,16 @@
 <script>
 export default {
   name: "Funcition",
+  data() {
+    return {
+      isDisabled: false,
+    };
+  },
   methods: {
     batdau() {
       this.$emit("xlBatDau");
       this.$emit("xlThoiGian");
+      this.isDisabled = true;
     },
     luatchoi() {
       this.$emit("xlLuatChoi");
@@ -76,7 +83,6 @@ export default {
   transform: translate(-50%, -5%);
   background-color: #3fbbec;
   /* border: 1px solid #000; */
-  z-index: 3;
   text-align: center;
   font-size: 50px;
   font-weight: bold;
@@ -125,5 +131,10 @@ export default {
 }
 .t .napTien {
   margin-left: 18px;
+}
+
+.disabledBatDau {
+  pointer-events: none;
+  opacity: 0.5;
 }
 </style>

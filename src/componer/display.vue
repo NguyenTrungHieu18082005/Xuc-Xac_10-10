@@ -15,9 +15,16 @@
       </div>
 
       <div class="vien tai">
-        <img class="img" src="/public/assets/tai.png" alt="tai" />
+        <div class="vienImg">
+          <img
+            :class="{ on: this.KQ === 'tai' }"
+            class="img"
+            src="/public/assets/tai.png"
+            alt="tai"
+          />
+        </div>
         <p class="tongTienCuoc" :class="{ on: this.ScaleTongTien[0].scale }">
-          {{ xlRandomTongTienCuoc[0] }}
+          {{ xlTongTienStringCuoc[0] }}
         </p>
         <button
           class="cuoc Tien1"
@@ -33,9 +40,16 @@
       </div>
 
       <div class="vien xiu">
-        <img class="img" src="/public/assets/xiu.png" alt="tai" />
+        <div class="vienImg">
+          <img
+            :class="{ on: this.KQ === 'xiu' }"
+            class="img"
+            src="/public/assets/xiu.png"
+            alt="tai"
+          />
+        </div>
         <p class="tongTienCuoc" :class="{ on: this.ScaleTongTien[1].scale }">
-          {{ xlRandomTongTienCuoc[1] }}
+          {{ xlTongTienStringCuoc[1] }}
         </p>
         <button
           class="cuoc Tien2"
@@ -91,10 +105,12 @@
     <div class="thoiGian" :class="{ on: this.TatHienThiThoiGian }">
       {{ ThoiGian }}
     </div>
-    <div class="tienThuong">+1.001.123.435</div>
+    <div class="tienThuong" :class="{ on: this.HienThiTienThuong !== null }">
+      +{{ HienThiTienThuong }}
+    </div>
     <div class="tongTien">
       <p :class="{ on: this.HienThiTongTien === true }">
-        {{ xlRandomTongTien[0] }}
+        {{ TongTienString }}
       </p>
     </div>
     <div class="thoiGianVanMoi" :class="{ on: this.HienThiThoiGianVanMoi }">
@@ -122,15 +138,17 @@ export default {
     };
   },
   props: {
+    HienThiTienThuong: { type: String, default: "0" },
+    KQ: { type: String, default: null },
     HienThiTienDaCuoc: { type: Array, default: [0, 0] },
     DisabledCuoc: { type: Boolean, default: false },
     TienCuoc: { type: Number, default: [0, 0] },
     indexTenCuoc: { type: Array, default: [0, 0] },
 
     ScaleTongTien: { type: Array, default: [false, false] },
-    xlRandomTongTienCuoc: { type: Array, default: ["0", "0"] },
+    xlTongTienStringCuoc: { type: Array, default: ["0", "0"] },
     SoNguoiChoi: { type: Array, default: [0, 0] },
-    xlRandomTongTien: { type: Array, default: null },
+    TongTienString: { type: String, default: "500.000" },
     HienThiTongTien: { type: Boolean, default: false },
     HienThiThoiGianVanMoi: { type: Boolean, default: false },
     ThoiGianVanMoi: { type: Number, default: 10 },
@@ -165,6 +183,7 @@ export default {
 :root {
   --mauBanCo: #0e9ff3;
 }
+
 .Display {
   /* background-color: #09e7d168; */
   width: 700px;
@@ -249,13 +268,33 @@ export default {
 .vienBanCo .xiu {
   margin-right: -70px;
 }
-
+.vienBanCo .vienImg {
+  width: 130px;
+  height: 70px;
+  /* border: 1px solid #00ff95; */
+}
 .vienBanCo .img {
   width: 100px;
   height: 55px;
   border: none;
-  margin-top: -10px;
+  margin: 7px 14px;
   border-radius: 15px;
+
+  transition: all 0.5s ease;
+}
+
+.on.img {
+  margin-top: -5px;
+  animation: blink 0.7s infinite;
+}
+@keyframes blink {
+  0%,
+  100% {
+    transform: scaleX(1.5) scaleY(1.4);
+  }
+  50% {
+    transform: scaleX(1.3) scaleY(1.2);
+  }
 }
 
 .vienBanCo .tongTienCuoc {
@@ -296,9 +335,9 @@ export default {
 
 .tienDaCuoc {
   font-weight: 900;
-  margin-top: 5px;
   letter-spacing: 1px;
-  font-weight: 900px;
+  font-family: "Anton", sans-serif;
+  font-weight: 500;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
@@ -335,22 +374,11 @@ export default {
 }
 
 .dice {
-  /* background-color: #fff; */
   width: 50px;
   height: 50px;
-  /* border: 1px solid #000; */
   margin-top: 50px;
   margin-left: 15px;
   transform: rotate(45deg);
-  /* margin-top: 50px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 60px;
-  box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
-  border: 1px solid #000;
-  background-color: #d6cbcb37; */
 }
 #dice-1 {
   grid-area: h;
@@ -503,14 +531,22 @@ export default {
   font-size: 30px;
   font-family: "Anton", sans-serif;
   font-weight: 800;
-  top: 70%;
-  color: whitesmoke;
-  text-shadow: 2px 2px 0px black, -2px -2px 0px black, -2px 2px 0px black,
-    2px -2px 0px black;
+  top: 73%;
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 2px 0px blue, -2px -2px 0px blue, -2px 2px 0px blue,
+    2px -2px 0px blue;
   letter-spacing: 4px;
   text-align: center;
   background-color: transparent;
-  /* visibility: hidden; */
+
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.7s ease;
+}
+.tienThuong.on {
+  opacity: 1;
+  visibility: visible;
+  margin-top: -10px;
 }
 
 .tongTien {
@@ -534,10 +570,10 @@ export default {
   font-size: 29px;
   font-family: "Anton", sans-serif;
   font-weight: 800;
-  letter-spacing: 2px;
-  background: linear-gradient(to bottom, gold, rgb(51, 255, 0));
-  background-clip: text;
-  color: transparent;
+  color: white;
+  text-shadow: 2px 2px 0px black, -2px -2px 0px black, -2px 2px 0px black,
+    2px -2px 0px black;
+  letter-spacing: 3px;
 
   visibility: hidden;
 }

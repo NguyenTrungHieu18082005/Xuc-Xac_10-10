@@ -4,18 +4,38 @@
       <ul>
         <li
           class="liDatCuoc"
-          v-for="(i, id) in datcuoc"
+          v-for="(i, id) in filteredDatCuoc"
           :key="id"
-          @click="click(i)"
+          @click="click(i.TenMenuButton)"
         >
-          <button>{{ i }}</button>
+          <button
+            :style="{
+              opacity: i.isDisabled ? 0.5 : 1,
+              cursor: i.isDisabled ? 'not-allowed' : 'pointer',
+            }"
+            :disabled="i.isDisabled"
+          >
+            {{ i.TenMenuButton }}
+          </button>
         </li>
       </ul>
     </div>
 
     <div class="chucnangButton">
-      <button class="button-blue">TẤT CẢ</button>
-      <button class="button-gold" @click="huy('datcuoc')">ĐẶT CƯỢC</button>
+      <button
+        class="button-blue"
+        @click="huy('all')"
+        :style="{
+          opacity: this.DisabledAll ? 0.5 : 1,
+          cursor: this.DisabledAll ? 'not-allowed' : 'pointer',
+        }"
+        :disabled="this.DisabledAll"
+      >
+        TẤT CẢ
+      </button>
+      <button class="button-gold" @click="huy('datcuoc')" :style="{}">
+        ĐẶT CƯỢC
+      </button>
       <button class="button-red" @click="huy('huy')">HỦY</button>
     </div>
   </div>
@@ -25,11 +45,32 @@
 export default {
   name: "Button",
   props: {
+    DisabledAll: { type: Boolean, default: false },
+    TongTien: { type: Number, default: 0 },
     HienThiFileButton: { type: Boolean, default: false },
-    Disabled: { type: Boolean, default: false },
     datcuoc: { type: Array, default: null },
   },
+  computed: {
+    filteredDatCuoc() {
+      return this.datcuoc.map((i) => ({
+        TenMenuButton: i,
+        isDisabled: this.convertToNumber(i) > this.TongTien,
+      }));
+    },
+    a() {
+      return this.TongTien <= 0;
+    },
+  },
   methods: {
+    convertToNumber(str) {
+      let value = parseFloat(str);
+      if (str.includes("K")) {
+        value *= 1000;
+      } else if (str.includes("M")) {
+        value *= 1000000;
+      }
+      return value;
+    },
     huy(e) {
       this.$emit("xlHuy", e);
     },

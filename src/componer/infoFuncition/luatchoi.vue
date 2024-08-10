@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     thoat() {
-      this.$emit("xlBatDau");
+      this.$emit("xlLuatChoi");
     },
   },
 };
