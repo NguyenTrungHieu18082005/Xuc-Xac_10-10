@@ -19,6 +19,7 @@
       <i
         class="fa-sharp-duotone fa-solid fa-rotate choiLai"
         title="Chơi Lại"
+        @click="choilai"
       ></i>
     </div>
 
@@ -53,6 +54,10 @@ export default {
     luatchoi() {
       this.$emit("xlLuatChoi");
     },
+    choilai() {
+      this.$emit("xlChoiLai");
+      console.log("a");
+    },
   },
   props: {
     BatDau: { type: Boolean, default: false },
@@ -63,7 +68,7 @@ export default {
 <style>
 .Funcition {
   left: 2%;
-  top: 16%;
+  top: 25%;
   position: absolute;
   width: 660px;
   height: 1px;

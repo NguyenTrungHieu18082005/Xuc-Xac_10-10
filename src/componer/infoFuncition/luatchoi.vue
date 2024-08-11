@@ -72,17 +72,19 @@ export default {
 }
 
 .lc {
-  width: 500px;
-  top: 50%;
+  width: 700px;
+  padding: 0 20px;
+  top: 30%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1.2);
+  transform: translate(-50%, -30%) scale(1.2);
   background: rgb(241, 244, 246);
   position: absolute;
   transition: all 0.5s ease;
+  border: 3px double #0000ff;
   border-radius: 15px;
 }
 .on .lc {
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -30%) scale(1);
 }
 .lc h3 {
   padding: 15px 0 0 0;

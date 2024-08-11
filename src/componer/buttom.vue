@@ -33,9 +33,7 @@
       >
         TẤT CẢ
       </button>
-      <button class="button-gold" @click="huy('datcuoc')" :style="{}">
-        ĐẶT CƯỢC
-      </button>
+      <button class="button-gold" @click="huy('datcuoc')">ĐẶT CƯỢC</button>
       <button class="button-red" @click="huy('huy')">HỦY</button>
     </div>
   </div>
@@ -84,9 +82,9 @@ export default {
 
 <style>
 .Button {
-  top: 57%;
+  top: 90%;
   left: 7%;
-  transform: translateY(-57%);
+  transform: translateY(-90%);
   /* background-color: #489a1868; */
   width: 600px;
   height: 30px;

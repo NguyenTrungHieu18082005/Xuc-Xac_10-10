@@ -38,11 +38,18 @@
       :BatDau="BatDau"
       @xlLuatChoi="xlLuatChoi"
     />
-    <luat-choi :openLuatChoi="openLuatChoi" @xlLuatChoi="xlLuatChoi" />
+    <luat-choi
+      :BatDau="BatDau"
+      :openLuatChoi="openLuatChoi"
+      @xlLuatChoi="xlLuatChoi"
+    />
+
+    <choi-lai :openChoiLai="openChoiLai" @xlChoiLai="xlChoiLai" />
   </div>
 </template>
 
 <script>
+import ChoiLai from "./componer/infoFuncition/choilai.vue";
 import LuatChoi from "./componer/infoFuncition/luatchoi.vue";
 import Display from "./componer/display.vue";
 import Buttom from "./componer/buttom.vue";
@@ -51,6 +58,8 @@ export default {
   tongTienCuoc: "App",
   data() {
     return {
+      openChoiLai: false,
+
       DisabledAll: false,
       HienThiTienThuong: null,
       KQ: "",
@@ -84,10 +93,11 @@ export default {
     };
   },
   components: {
-    Display,
-    Buttom,
-    Funcition,
+    ChoiLai,
     LuatChoi,
+    Funcition,
+    Buttom,
+    Display,
   },
   computed: {
     xlTongTienStringCuoc() {
@@ -337,6 +347,9 @@ export default {
       this.HienThiTongTien = true;
       this.xlTongTienString();
     },
+    xlChoiLai() {
+      this.openChoiLai = !this.openChoiLai;
+    },
   },
 };
 </script>
@@ -349,6 +362,7 @@ export default {
 }
 #app {
   width: 1000px;
+  position: relative;
   /* background-color: #957171; */
   /* margin: 0 auto; */
 }

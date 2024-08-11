@@ -181,11 +181,11 @@ export default {
 ''
 <style>
 :root {
-  --mauBanCo: #0e9ff3;
+  --mauVienBanCo: #3bb5fb;
+  --mauBanCo: #31bbf1;
 }
 
 .Display {
-  /* background-color: #09e7d168; */
   width: 700px;
   height: 400px;
   position: relative;
@@ -202,7 +202,8 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #31bbf1;
+  /* background-color: #31bbf1; */
+  background-color: var(--mauBanCo);
 }
 
 .banco {
@@ -210,7 +211,7 @@ export default {
   height: 300px;
   border: 1px solid black;
   border-radius: 130px;
-  background-color: var(--mauBanCo);
+  background-color: var(--mauVienBanCo);
 }
 
 .vienBanCo {
@@ -556,8 +557,8 @@ export default {
 
   border-top: 40px solid rgba(1, 85, 255, 0.623);
   border-bottom: 0px;
-  border-left: 30px solid var(--mauBanCo); /* Làm trong suốt viền bên trái */
-  border-right: 30px solid var(--mauBanCo); /* Làm trong suốt viền bên phải */
+  border-left: 30px solid var(--mauVienBanCo); /* Làm trong suốt viền bên trái */
+  border-right: 30px solid var(--mauVienBanCo); /* Làm trong suốt viền bên phải */
 
   border-bottom-left-radius: 50px;
   border-bottom-right-radius: 50px;
