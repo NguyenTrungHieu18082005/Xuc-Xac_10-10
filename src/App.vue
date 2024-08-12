@@ -33,7 +33,7 @@
     />
 
     <funcition
-      @xlThoiGian="xlThoiGian"
+      @xlChoiLai="xlChoiLai"
       @xlBatDau="xlBatDau"
       :BatDau="BatDau"
       @xlLuatChoi="xlLuatChoi"
@@ -44,7 +44,11 @@
       @xlLuatChoi="xlLuatChoi"
     />
 
-    <choi-lai :openChoiLai="openChoiLai" @xlChoiLai="xlChoiLai" />
+    <choi-lai
+      @xlReset="xlReset"
+      :openChoiLai="openChoiLai"
+      @xlChoiLai="xlChoiLai"
+    />
   </div>
 </template>
 
@@ -90,6 +94,8 @@ export default {
       ThoiGian: 10,
       BuffTienMin: 1000,
       BuffTienMax: 5000000,
+
+      ArraySetInterval: [],
     };
   },
   components: {
@@ -209,6 +215,7 @@ export default {
           this.ThoiGian = ThoiGian2;
         }
       }, 1000);
+      this.ArraySetInterval.push(tg);
     },
 
     xlSoNguoiChoi_xlTongTienCuoc(
@@ -253,6 +260,7 @@ export default {
           }
         }, newTime);
       }
+      this.ArraySetInterval.push(count);
 
       startInterval(time);
     },
@@ -306,8 +314,10 @@ export default {
               this.xlThoiGianVanMoi(this.ThoiGianVanMoi);
             }
           }, 1000);
+          this.ArraySetInterval.push(doTre);
         }
       }, 500);
+      this.ArraySetInterval.push(qxx);
     },
 
     xlHetThoiGian() {
@@ -337,6 +347,7 @@ export default {
           this.TatHienThiThoiGian = !this.TatHienThiThoiGian;
         }
       }, 1000);
+      this.ArraySetInterval.push(tgvm);
     },
 
     xlLuatChoi() {
@@ -346,9 +357,46 @@ export default {
       this.BatDau = true;
       this.HienThiTongTien = true;
       this.xlTongTienString();
+      this.xlThoiGian();
     },
     xlChoiLai() {
       this.openChoiLai = !this.openChoiLai;
+    },
+
+    xlReset() {
+      this.ArraySetInterval.forEach((id) => {
+        clearInterval(id);
+      });
+      this.ArraySetInterval = [];
+
+      this.openChoiLai = false;
+      this.DisabledAll = false;
+      this.HienThiTienThuong = null;
+      this.KQ = "";
+      this.HienThiTienDaCuoc = [0, 0];
+      this.DisabledCuoc = false;
+      this.TienCuoc = 0;
+      this.indexTenCuoc = [0, 0];
+      this.HienThiFileButton = false;
+      this.ScaleTongTien = [{ scale: false }, { scale: false }];
+      this.HienThiTongTienCuoc = ["0", "0"];
+      this.TongTienCuoc = [{ value: 0 }, { value: 0 }];
+      this.SoNguoiChoi = [{ value: 0 }, { value: 0 }];
+      this.TongTien = 300000;
+      this.TongTienString = "600000";
+      this.HienThiTongTien = false;
+      this.HienThiThoiGianVanMoi = false;
+      this.TatHienThiThoiGian = false;
+      this.openLuatChoi = false;
+      this.BatDau = false;
+      this.Dices = [3, 4, 6];
+      this.ThoiGianVanMoi = 5;
+      this.ThoiGianQuayXucXac = 5;
+      this.ThoiGian = 10;
+      this.BuffTienMin = 1000;
+      this.BuffTienMax = 5000000;
+
+      this.xlBatDau();
     },
   },
 };

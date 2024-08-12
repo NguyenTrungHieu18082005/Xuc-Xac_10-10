@@ -75,7 +75,9 @@ export default {
       this.XacNhanChoiLai = !this.XacNhanChoiLai;
     },
     yesChoiLai() {
+      this.LuotChoi--;
       this.$emit("xlReset");
+      this.choilai(); // tắt yesChoiLai
     },
   },
 };

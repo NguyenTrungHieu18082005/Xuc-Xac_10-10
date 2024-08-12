@@ -48,7 +48,6 @@ export default {
   methods: {
     batdau() {
       this.$emit("xlBatDau");
-      this.$emit("xlThoiGian");
       this.isDisabled = true;
     },
     luatchoi() {
