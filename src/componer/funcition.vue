@@ -28,6 +28,7 @@
       <i
         class="fa-sharp-duotone fa-solid fa-money-bill-transfer napTien"
         title="Nạp Tiền"
+        @click="naptien"
       ></i>
       <i
         class="fa-sharp fa-solid fa-hand-holding-dollar rutTien"
@@ -46,6 +47,9 @@ export default {
     };
   },
   methods: {
+    naptien() {
+      this.$emit("xlNap");
+    },
     batdau() {
       this.$emit("xlBatDau");
       this.isDisabled = true;

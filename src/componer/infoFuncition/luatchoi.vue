@@ -23,8 +23,8 @@
       </p>
       <h3>Nạp Tiền</h3>
       <p>
-        Người chơi sẽ có 3 lần nạp. Mỗi lần nạp tối đa là 1 triệu. Thời gian nạp
-        sẽ tăng lên 1 lượt sau mỗi 10 phút
+        Người chơi sẽ có 2 lần nạp. Mỗi lần nạp tối đa là 500k. Thời gian nạp sẽ
+        tăng lên 1 lượt sau mỗi 10 phút.
       </p>
       <h3>Rút Tiền</h3>
       <p>
@@ -73,7 +73,7 @@ export default {
 
 .lc {
   width: 700px;
-  padding: 0 20px;
+  padding: 0 10px;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -30%) scale(1.2);
@@ -88,6 +88,7 @@ export default {
 }
 .lc h3 {
   padding: 15px 0 0 0;
+  color: #0000ffa5;
 }
 
 .lc button {

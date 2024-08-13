@@ -33,6 +33,7 @@
     />
 
     <funcition
+      @xlNap="xlNap"
       @xlChoiLai="xlChoiLai"
       @xlBatDau="xlBatDau"
       :BatDau="BatDau"
@@ -49,19 +50,23 @@
       :openChoiLai="openChoiLai"
       @xlChoiLai="xlChoiLai"
     />
+
+    <nap-tien @xlNapTien="xlNapTien" @xlNap="xlNap" :openNap="openNap" />
   </div>
 </template>
 
 <script>
+import NapTien from "./componer/infoFuncition/naptien.vue";
 import ChoiLai from "./componer/infoFuncition/choilai.vue";
 import LuatChoi from "./componer/infoFuncition/luatchoi.vue";
 import Display from "./componer/display.vue";
 import Buttom from "./componer/buttom.vue";
 import Funcition from "./componer/funcition.vue";
 export default {
-  tongTienCuoc: "App",
+  name: "App",
   data() {
     return {
+      openNap: false,
       openChoiLai: false,
 
       DisabledAll: false,
@@ -99,6 +104,7 @@ export default {
     };
   },
   components: {
+    NapTien,
     ChoiLai,
     LuatChoi,
     Funcition,
@@ -107,28 +113,22 @@ export default {
   },
   computed: {
     xlTongTienStringCuoc() {
-      this.HienThiTongTienCuoc[0] = this.TongTienCuoc[0].value.toLocaleString(
-        "vi-VN",
-        {
-          style: "decimal",
-        }
-      );
-      this.HienThiTongTienCuoc[1] = this.TongTienCuoc[1].value.toLocaleString(
-        "vi-VN",
-        {
-          style: "decimal",
-        }
-      );
+      this.HienThiTongTienCuoc[0] =
+        this.TongTienCuoc[0].value.toLocaleString("vi-VN");
+      this.HienThiTongTienCuoc[1] =
+        this.TongTienCuoc[1].value.toLocaleString("vi-VN");
       return this.HienThiTongTienCuoc;
     },
   },
   methods: {
+    xlNapTien(e) {
+      this.TongTien += e;
+      this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
+    },
     xlTongTienString() {
       let tien = Math.floor(Math.random() * (1500000 - 150000 + 1)) + 150000;
       this.TongTien = Number(tien);
-      this.TongTienString = this.TongTien.toLocaleString("vi-VN", {
-        style: "decimal",
-      });
+      this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
     },
     xlHuy(e) {
       console.log("e = " + e);
@@ -138,9 +138,7 @@ export default {
         this.TienCuoc = 0;
         this.DisabledCuoc = this.DisabledAll = false;
       } else if (e === "datcuoc") {
-        this.TongTienString = this.TongTien.toLocaleString("vi-VN", {
-          style: "decimal",
-        });
+        this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
 
         this.DisabledCuoc = true;
         this.HienThiTienDaCuoc[0] = this.HienThiTienDaCuoc[0] === 1 ? 2 : 0;
@@ -285,24 +283,16 @@ export default {
             if (this.HienThiTienDaCuoc[1] === 3) {
               var tienThuong = Math.ceil(1.95 * this.TienCuoc);
               this.TongTien += tienThuong;
-              this.TongTienString = this.TongTien.toLocaleString("vi-VN", {
-                style: "decimal",
-              });
-              this.HienThiTienThuong = tienThuong.toLocaleString("vi-VN", {
-                style: "decimal",
-              });
+              this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
+              this.HienThiTienThuong = tienThuong.toLocaleString("vi-VN", {});
             }
           } else if (sumDices >= 11 && sumDices <= 17) {
             this.KQ = "tai";
             if (this.HienThiTienDaCuoc[0] === 2) {
               var tienThuong = Math.ceil(1.95 * this.TienCuoc);
               this.TongTien += tienThuong;
-              this.TongTienString = this.TongTien.toLocaleString("vi-VN", {
-                style: "decimal",
-              });
-              this.HienThiTienThuong = tienThuong.toLocaleString("vi-VN", {
-                style: "decimal",
-              });
+              this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
+              this.HienThiTienThuong = tienThuong.toLocaleString("vi-VN", {});
             }
           }
 
@@ -361,6 +351,9 @@ export default {
     },
     xlChoiLai() {
       this.openChoiLai = !this.openChoiLai;
+    },
+    xlNap() {
+      this.openNap = !this.openNap;
     },
 
     xlReset() {

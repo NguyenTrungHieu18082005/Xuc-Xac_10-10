@@ -33,8 +33,8 @@ export default {
   data() {
     return {
       XacNhanChoiLai: false,
-      LuotChoi: 0,
-      TimeLuotChoiLai: this.tinhSoPhutRaGiay(0.1),
+      LuotChoi: 1,
+      TimeLuotChoiLai: this.tinhSoPhutRaGiay(15), // 0.1 = 6s, 1 = 1p, 10 = 10p
     };
   },
   props: {
@@ -63,7 +63,7 @@ export default {
         if (this.TimeLuotChoiLai-- <= 1) {
           clearInterval(start);
           this.LuotChoi++;
-          this.TimeLuotChoiLai = this.tinhSoPhutRaGiay(0.1);
+          this.TimeLuotChoiLai = this.tinhSoPhutRaGiay(15);
           this.startDem();
         }
       }, 1000);
