@@ -26,14 +26,25 @@
         class="button-blue"
         @click="huy('all')"
         :style="{
-          opacity: this.DisabledAll ? 0.5 : 1,
-          cursor: this.DisabledAll ? 'not-allowed' : 'pointer',
+          opacity: this.DisabledAll || this.TongTien < 1 ? 0.5 : 1, // DisabledAll: ẩn all khi nhấn button menu. TongTien: ẩn all khi tiền về 0 (áp dung ván mới)
+          cursor:
+            this.DisabledAll || this.TongTien < 1 ? 'not-allowed' : 'pointer',
         }"
-        :disabled="this.DisabledAll"
+        :disabled="this.DisabledAll || this.TongTien < 1"
       >
         TẤT CẢ
       </button>
-      <button class="button-gold" @click="huy('datcuoc')">ĐẶT CƯỢC</button>
+      <button
+        class="button-gold"
+        :style="{
+          opacity: this.TongTienString < 1 ? 0.5 : 1,
+          cursor: this.TongTienString < 1 ? 'not-allowed' : 'pointer',
+        }"
+        :disabled="this.TongTienString < 1"
+        @click="huy('datcuoc')"
+      >
+        ĐẶT CƯỢC
+      </button>
       <button class="button-red" @click="huy('huy')">HỦY</button>
     </div>
   </div>
@@ -43,6 +54,7 @@
 export default {
   name: "Button",
   props: {
+    TongTienString: { type: String, default: "0" },
     DisabledAll: { type: Boolean, default: false },
     TongTien: { type: Number, default: 0 },
     HienThiFileButton: { type: Boolean, default: false },

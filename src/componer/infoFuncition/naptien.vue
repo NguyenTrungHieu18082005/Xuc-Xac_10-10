@@ -108,6 +108,7 @@ export default {
   right: 0;
   bottom: 0;
   background-color: #6da9cb6f;
+  transition: all 0.5s ease-in;
 
   opacity: 0;
   visibility: hidden;
@@ -115,7 +116,6 @@ export default {
 .nt {
   position: absolute;
   top: 30%;
-  left: 0;
   border: 3px double rgba(40, 40, 255, 0.842);
   width: 500px;
   transform: translateY(-40%);

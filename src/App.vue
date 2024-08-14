@@ -24,6 +24,7 @@
     />
 
     <buttom
+      :TongTienString="TongTienString"
       :DisabledAll="DisabledAll"
       :TongTien="TongTien"
       :HienThiFileButton="HienThiFileButton"
@@ -33,6 +34,7 @@
     />
 
     <funcition
+      @xlRutTien="xlRutTien"
       @xlNap="xlNap"
       @xlChoiLai="xlChoiLai"
       @xlBatDau="xlBatDau"
@@ -52,10 +54,17 @@
     />
 
     <nap-tien @xlNapTien="xlNapTien" @xlNap="xlNap" :openNap="openNap" />
+
+    <rut-tien
+      :openRutTien="openRutTien"
+      @xlRutTien="xlRutTien"
+      :TongTien="TongTien"
+    />
   </div>
 </template>
 
 <script>
+import RutTien from "./componer/infoFuncition/ruttien.vue";
 import NapTien from "./componer/infoFuncition/naptien.vue";
 import ChoiLai from "./componer/infoFuncition/choilai.vue";
 import LuatChoi from "./componer/infoFuncition/luatchoi.vue";
@@ -66,6 +75,7 @@ export default {
   name: "App",
   data() {
     return {
+      openRutTien: false,
       openNap: false,
       openChoiLai: false,
 
@@ -96,7 +106,7 @@ export default {
 
       ThoiGianVanMoi: 5,
       ThoiGianQuayXucXac: 5,
-      ThoiGian: 10,
+      ThoiGian: 6,
       BuffTienMin: 1000,
       BuffTienMax: 5000000,
 
@@ -104,6 +114,7 @@ export default {
     };
   },
   components: {
+    RutTien,
     NapTien,
     ChoiLai,
     LuatChoi,
@@ -124,6 +135,7 @@ export default {
     xlNapTien(e) {
       this.TongTien += e;
       this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
+      this.openNap = !this.openNap;
     },
     xlTongTienString() {
       let tien = Math.floor(Math.random() * (1500000 - 150000 + 1)) + 150000;
@@ -281,18 +293,18 @@ export default {
           if (sumDices >= 4 && sumDices <= 10) {
             this.KQ = "xiu";
             if (this.HienThiTienDaCuoc[1] === 3) {
-              var tienThuong = Math.ceil(1.95 * this.TienCuoc);
-              this.TongTien += tienThuong;
+              let tienThuong1 = Math.ceil(1.95 * this.TienCuoc);
+              this.TongTien += tienThuong1;
               this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
-              this.HienThiTienThuong = tienThuong.toLocaleString("vi-VN", {});
+              this.HienThiTienThuong = tienThuong1.toLocaleString("vi-VN", {});
             }
           } else if (sumDices >= 11 && sumDices <= 17) {
             this.KQ = "tai";
             if (this.HienThiTienDaCuoc[0] === 2) {
-              var tienThuong = Math.ceil(1.95 * this.TienCuoc);
-              this.TongTien += tienThuong;
+              let tienThuong2 = Math.ceil(1.95 * this.TienCuoc);
+              this.TongTien += tienThuong2;
               this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
-              this.HienThiTienThuong = tienThuong.toLocaleString("vi-VN", {});
+              this.HienThiTienThuong = tienThuong2.toLocaleString("vi-VN", {});
             }
           }
 
@@ -354,6 +366,9 @@ export default {
     },
     xlNap() {
       this.openNap = !this.openNap;
+    },
+    xlRutTien() {
+      this.openRutTien = !this.openRutTien;
     },
 
     xlReset() {

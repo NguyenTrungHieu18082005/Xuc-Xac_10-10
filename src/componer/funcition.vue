@@ -33,6 +33,7 @@
       <i
         class="fa-sharp fa-solid fa-hand-holding-dollar rutTien"
         title="Rút Tiền"
+        @click="ruttien"
       ></i>
     </div>
   </div>
@@ -46,7 +47,13 @@ export default {
       isDisabled: false,
     };
   },
+  props: {
+    BatDau: { type: Boolean, default: false },
+  },
   methods: {
+    ruttien() {
+      this.$emit("xlRutTien");
+    },
     naptien() {
       this.$emit("xlNap");
     },
@@ -61,9 +68,6 @@ export default {
       this.$emit("xlChoiLai");
       console.log("a");
     },
-  },
-  props: {
-    BatDau: { type: Boolean, default: false },
   },
 };
 </script>
