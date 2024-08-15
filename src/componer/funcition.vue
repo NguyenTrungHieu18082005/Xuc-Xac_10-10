@@ -24,7 +24,11 @@
     </div>
 
     <div class="t thanh2">
-      <i class="fa-sharp-duotone fa-solid fa-user-gear admin" title="Admin"></i>
+      <i
+        class="fa-sharp-duotone fa-solid fa-user-gear admin"
+        title="Admin"
+        @click="admin"
+      ></i>
       <i
         class="fa-sharp-duotone fa-solid fa-money-bill-transfer napTien"
         title="Nạp Tiền"
@@ -51,6 +55,9 @@ export default {
     BatDau: { type: Boolean, default: false },
   },
   methods: {
+    admin() {
+      this.$emit("xlAdmin");
+    },
     ruttien() {
       this.$emit("xlRutTien");
     },

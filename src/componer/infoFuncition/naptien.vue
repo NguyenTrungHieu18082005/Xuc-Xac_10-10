@@ -2,7 +2,7 @@
   <div class="NapTien" :class="{ on: this.openNap }">
     <div class="nt">
       <h3>Nhận lượt nạp tiền tiếp theo trong khoảng: {{ HienThi }} nữa.</h3>
-      <h3>Nạp tiền còn lại: {{ LuotNap }} lượt.</h3>
+      <h3>Nạp tiền còn lại: {{ this.LuotNap }} lượt.</h3>
 
       <label>Số Tiền: </label>
       <input
@@ -41,12 +41,12 @@ export default {
   data() {
     return {
       Tien: 1000,
-      LuotNap: 1,
       XacNhanNap: false,
       TimeLuotNap: this.tinhSoPhutRaGiay(15), // 0.1 = 6s, 1 = 1p, 10 = 10p
     };
   },
   props: {
+    LuotNap: { type: Number, default: 1 },
     openNap: { type: Boolean, default: false },
   },
   computed: {
@@ -68,7 +68,6 @@ export default {
     yesNap() {
       let numberTien = Number(this.Tien);
       this.$emit("xlNapTien", numberTien);
-      this.LuotNap--;
       this.nap();
     },
     nap() {
@@ -90,7 +89,7 @@ export default {
       let start = setInterval(() => {
         if (this.TimeLuotNap-- <= 1) {
           clearInterval(start);
-          this.LuotChoi++;
+          this.$emit("xlTangLuot", "naptien");
           this.TimeLuotNap = this.tinhSoPhutRaGiay(15);
           this.startDem();
         }

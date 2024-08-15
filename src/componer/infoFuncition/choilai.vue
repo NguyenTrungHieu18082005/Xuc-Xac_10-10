@@ -5,15 +5,15 @@
         Nhận lượt chơi lại tiếp theo trong khoảng:
         {{ HienThi }} nữa.
       </h3>
-      <h3>Lượt chơi lại còn: {{ LuotChoi }} lượt.</h3>
+      <h3>Lượt chơi lại còn: {{ this.LuotChoi1 }} lượt.</h3>
       <button
         class="choilai"
         @click="choilai"
         :style="{
-          opacity: this.LuotChoi > 0 ? 1 : 0.5,
-          cursor: this.LuotChoi > 0 ? 'pointer' : 'not-allowed',
+          opacity: this.LuotChoi1 > 0 ? 1 : 0.5,
+          cursor: this.LuotChoi1 > 0 ? 'pointer' : 'not-allowed',
         }"
-        :disabled="this.LuotChoi < 1"
+        :disabled="this.LuotChoi1 < 1"
       >
         Chơi Lại
       </button>
@@ -33,11 +33,11 @@ export default {
   data() {
     return {
       XacNhanChoiLai: false,
-      LuotChoi: 1,
       TimeLuotChoiLai: this.tinhSoPhutRaGiay(15), // 0.1 = 6s, 1 = 1p, 10 = 10p
     };
   },
   props: {
+    LuotChoi1: { type: Number, default: 0 },
     openChoiLai: { type: Boolean, default: false },
   },
   computed: {
@@ -48,7 +48,6 @@ export default {
     },
   },
   mounted() {
-    //tự động chạy khi được gọi file này
     this.startDem();
   },
   methods: {
@@ -62,20 +61,19 @@ export default {
       let start = setInterval(() => {
         if (this.TimeLuotChoiLai-- <= 1) {
           clearInterval(start);
-          this.LuotChoi++;
+          this.$emit("xlTangLuot");
           this.TimeLuotChoiLai = this.tinhSoPhutRaGiay(15);
           this.startDem();
         }
       }, 1000);
     },
     thoat() {
-      this.$emit("xlChoiLai");
+      this.$emit("xlChoiLai", "choilai");
     },
     choilai() {
       this.XacNhanChoiLai = !this.XacNhanChoiLai;
     },
     yesChoiLai() {
-      this.LuotChoi--;
       this.$emit("xlReset");
       this.choilai(); // tắt yesChoiLai
     },

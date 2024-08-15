@@ -34,6 +34,7 @@
     />
 
     <funcition
+      @xlAdmin="xlAdmin"
       @xlRutTien="xlRutTien"
       @xlNap="xlNap"
       @xlChoiLai="xlChoiLai"
@@ -48,22 +49,37 @@
     />
 
     <choi-lai
+      @xlTangLuot="xlTangLuot"
+      :LuotChoi1="LuotChoi1"
       @xlReset="xlReset"
       :openChoiLai="openChoiLai"
       @xlChoiLai="xlChoiLai"
     />
 
-    <nap-tien @xlNapTien="xlNapTien" @xlNap="xlNap" :openNap="openNap" />
+    <nap-tien
+      @xlTangLuot="xlTangLuot"
+      :LuotNap="LuotNap"
+      @xlNapTien="xlNapTien"
+      @xlNap="xlNap"
+      :openNap="openNap"
+    />
 
     <rut-tien
       :openRutTien="openRutTien"
       @xlRutTien="xlRutTien"
       :TongTien="TongTien"
     />
+
+    <admin
+      @xlAdminBuff="xlAdminBuff"
+      @xlAdmin="xlAdmin"
+      :openAdmin="openAdmin"
+    />
   </div>
 </template>
 
 <script>
+import Admin from "./componer/infoFuncition/admin.vue";
 import RutTien from "./componer/infoFuncition/ruttien.vue";
 import NapTien from "./componer/infoFuncition/naptien.vue";
 import ChoiLai from "./componer/infoFuncition/choilai.vue";
@@ -75,6 +91,10 @@ export default {
   name: "App",
   data() {
     return {
+      LuotNap: 1,
+      LuotChoi1: 1,
+
+      openAdmin: false,
       openRutTien: false,
       openNap: false,
       openChoiLai: false,
@@ -114,6 +134,7 @@ export default {
     };
   },
   components: {
+    Admin,
     RutTien,
     NapTien,
     ChoiLai,
@@ -132,10 +153,43 @@ export default {
     },
   },
   methods: {
+    xlTangLuot(e) {
+      if (e === "choilai") {
+        this.LuotChoi1++;
+      } else {
+        this.LuotNap++;
+      }
+    },
+    xlAdminBuff(e, id) {
+      let doiSangNumber, doiSangNumber1;
+      console.log("e " + e);
+      console.log("id " + id);
+      if (id === 2 || id === 5 || id === 6) {
+        doiSangNumber1 = Number(e);
+      } else {
+        doiSangNumber = Number(e.replace(/\./g, ""));
+      }
+
+      if (id === 1) {
+        this.TongTien = doiSangNumber;
+        this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
+      } else if (id === 2) {
+        this.ThoiGian = doiSangNumber1;
+      } else if (id === 3) {
+        this.BuffTienMin = doiSangNumber;
+      } else if (id === 4) {
+        this.BuffTienMax = doiSangNumber;
+      } else if (id === 5) {
+        this.LuotChoi1 = doiSangNumber1;
+      } else if (id === 6) {
+        this.LuotNap = doiSangNumber1;
+      }
+    },
     xlNapTien(e) {
       this.TongTien += e;
       this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
       this.openNap = !this.openNap;
+      this.LuotNap--;
     },
     xlTongTienString() {
       let tien = Math.floor(Math.random() * (1500000 - 150000 + 1)) + 150000;
@@ -370,8 +424,13 @@ export default {
     xlRutTien() {
       this.openRutTien = !this.openRutTien;
     },
+    xlAdmin() {
+      this.openAdmin = !this.openAdmin;
+    },
 
     xlReset() {
+      this.LuotChoi1--;
+
       this.ArraySetInterval.forEach((id) => {
         clearInterval(id);
       });
