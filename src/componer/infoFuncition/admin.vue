@@ -23,11 +23,7 @@
               <button class="flip-card__btn" type="button" @click="login">
                 Login
               </button>
-              <button
-                class="flip-card__btn"
-                type="button"
-                @click="$emit('xlAdmin')"
-              >
+              <button class="flip-card__btn" type="button" @click="exit">
                 Exit
               </button>
             </div>
@@ -36,28 +32,139 @@
       </div>
     </div>
 
+    <!-- id của radio dùng để liên kết tới label hiển thị radio đó, khi ấb vào label thì sẽ radio đó được chọn -->
     <div class="admin" :class="{ on: HienThiAdmin }">
       <div class="buffThangThua">
-        <label v-for="(i, index) in ThangThua" :key="index">
-          <input type="radio" :name="'a'" :value="i" :checked="index === 1" />
-          {{ i }}
-        </label>
+        <div>
+          <input
+            type="radio"
+            name="a"
+            id="option1"
+            value="thuong"
+            v-model="KieuHack1"
+          />
+          <label for="option1">Thường</label>
+        </div>
+
+        <div>
+          <input
+            type="radio"
+            name="a"
+            id="option2"
+            checked
+            value="buff"
+            v-model="KieuHack1"
+          />
+          <label for="option2">Buff</label>
+        </div>
+
+        <div>
+          <input
+            type="radio"
+            name="a"
+            id="option3"
+            value="10/0"
+            v-model="KieuHack1"
+          />
+          <label for="option3">10/0</label>
+        </div>
+
+        <div>
+          <input
+            type="radio"
+            name="a"
+            id="option4"
+            value="7/3"
+            v-model="KieuHack1"
+          />
+          <label for="option4">7/3</label>
+        </div>
+
+        <div>
+          <input
+            type="radio"
+            name="a"
+            id="option5"
+            value="3/7"
+            v-model="KieuHack1"
+          />
+          <label for="option5">3/7</label>
+        </div>
+
+        <div>
+          <input
+            type="radio"
+            name="a"
+            id="option6"
+            value="0/10"
+            v-model="KieuHack1"
+          />
+          <label for="option6">0/10</label>
+        </div>
       </div>
 
       <div class="buff">
-        <label for="">Buff Tien</label>
-        <input type="text" v-model="BuffTien" @input="chuyendoiSo(1)" />
-        <label for="">Thoi Gian</label>
-        <input type="text" v-model="ThoiGian" @input="chuyendoiSo(2)" />
-        <label for="">Buff Min</label>
-        <input type="text" v-model="BuffMin" @input="chuyendoiSo(3)" />
-        <label for="">Buff Max</label>
-        <input type="text" v-model="BuffMax" @input="chuyendoiSo(4)" />
-        <label for="">Luot Choi</label>
-        <input type="text" v-model="LuotChoi" @input="chuyendoiSo(5)" />
-        <label for="">Nap Tien</label>
-        <input type="text" v-model="NapTien" @input="chuyendoiSo(6)" />
+        <div>
+          <label for="buffTien">Buff Tien</label>
+          <input
+            type="text"
+            id="buffTien"
+            v-model="BuffTien"
+            @input="chuyendoiSo(1)"
+          />
+        </div>
+
+        <div>
+          <label for="thoiGian">Thoi Gian</label>
+          <input
+            type="text"
+            id="thoiGian"
+            v-model="ThoiGian"
+            @input="chuyendoiSo(2)"
+          />
+        </div>
+
+        <div>
+          <label for="buffMin">Buff Min</label>
+          <input
+            type="text"
+            id="buffMin"
+            v-model="BuffMin"
+            @input="chuyendoiSo(3)"
+          />
+        </div>
+
+        <div>
+          <label for="buffMax">Buff Max</label>
+          <input
+            type="text"
+            id="buffMax"
+            v-model="BuffMax"
+            @input="chuyendoiSo(4)"
+          />
+        </div>
+
+        <div>
+          <label for="luotChoi">Luot Choi</label>
+          <input
+            type="text"
+            id="luotChoi"
+            v-model="LuotChoi"
+            @input="chuyendoiSo(5)"
+          />
+        </div>
+
+        <div>
+          <label for="napTien">Nap Tien</label>
+          <input
+            type="text"
+            id="napTien"
+            v-model="NapTien"
+            @input="chuyendoiSo(6)"
+          />
+        </div>
       </div>
+
       <button @click="auke">Ấu Kề</button>
     </div>
   </div>
@@ -68,6 +175,8 @@ export default {
   name: "Admin",
   data() {
     return {
+      KieuHack1: "buff",
+
       BuffTien: "",
       ThoiGian: "",
       BuffMin: "",
@@ -77,17 +186,11 @@ export default {
       HienThiAdmin: false,
       Name: "",
       Pass: "",
-      Buff: [
-        "buffTien",
-        "Thoi Gian Quay",
-        "Min Nguoi Choi",
-        "Max Nguoi Choi",
-        "buffLuotChoi",
-        "buffNapTien",
-      ],
+
       ThangThua: ["Thường", "Buff", "10/0", "7/3", "3/7", "0/10"],
     };
   },
+
   props: {
     openAdmin: { type: Boolean, default: false },
   },
@@ -100,6 +203,12 @@ export default {
     },
   },
   methods: {
+    hack() {},
+
+    exit() {
+      this.$emit("xlAdmin");
+      this.Name = this.Pass = "";
+    },
     chuyendoiSo(e) {
       if (e === 1) {
         let value = this.BuffTien.replace(/[^0-9]/g, "");
@@ -120,11 +229,11 @@ export default {
       }
     },
     auke() {
+      this.$emit("xlKieuHack", this.KieuHack1);
+
       this.HienThiAdmin = !this.HienThiAdmin;
       this.$emit("xlAdmin");
       this.Name = this.Pass = "";
-      console.log("a " + this.BuffTien);
-      console.log("a1 " + typeof this.BuffTien);
 
       if (this.BuffTien != "0" && this.BuffTien != "") {
         this.$emit("xlAdminBuff", this.BuffTien, 1);
@@ -232,23 +341,29 @@ export default {
   }
 }
 
-.buffThangThua {
-  border-radius: 5px;
-  border: 1px solid #000;
-  padding: 10px;
-  line-height: 1.5;
-  box-shadow: 4px 4px rgba(23, 23, 23, 0.485);
-  font-weight: bold;
-}
-.admin .buff {
+.buffThangThua,
+.buff {
   width: 250px;
   border-radius: 5px;
-  border: 1px solid #000;
-  font-weight: bold;
-  line-height: 1.5;
+  border: 1px solid #000000;
   padding: 10px;
+  line-height: 1.5;
   box-shadow: 4px 4px rgba(23, 23, 23, 0.485);
+  font-weight: bold;
 }
+.buffThangThua {
+  width: 100px;
+}
+
+.buffThangThua div,
+.buff div {
+  margin-bottom: 5px;
+}
+.buffThangThua input,
+.buffThangThua label {
+  cursor: pointer;
+}
+
 .admin .buff input {
   font-weight: bold;
   width: 150px;
@@ -258,14 +373,9 @@ export default {
   animation: moveBorder 3s linear infinite;
   border: 1px solid transparent;
 }
-.buffThangThua {
-  display: flex;
-  flex-direction: column;
-}
-.buffThangThua label:hover {
+
+.buffThangThua div:hover {
   color: blue;
-  cursor: pointer;
-  padding: 0 5px;
 
   animation: moveBorder 2s linear infinite;
   border: 1px solid transparent;

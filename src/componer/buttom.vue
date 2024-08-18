@@ -86,7 +86,6 @@ export default {
     },
     click(i) {
       this.$emit("xlMenuCuoc", i);
-      console.log("xl = " + i);
     },
   },
 };
