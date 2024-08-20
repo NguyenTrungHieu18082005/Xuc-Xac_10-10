@@ -9,7 +9,7 @@
         class="fa-sharp-duotone fa-solid fa-circle-play batDau"
         title="Bắt Đầu"
         @click="batdau"
-        :class="{ disabledBatDau: this.isDisabled }"
+        :class="{ disabledBatDau: this.BatDau }"
       ></i>
       <i
         class="fa-sharp fa-solid fa-info luatChoi"
@@ -20,6 +20,7 @@
         class="fa-sharp-duotone fa-solid fa-rotate choiLai"
         title="Chơi Lại"
         @click="choilai"
+        :class="{ on: this.BatDau }"
       ></i>
     </div>
 
@@ -33,11 +34,13 @@
         class="fa-sharp-duotone fa-solid fa-money-bill-transfer napTien"
         title="Nạp Tiền"
         @click="naptien"
+        :class="{ on: this.BatDau }"
       ></i>
       <i
         class="fa-sharp fa-solid fa-hand-holding-dollar rutTien"
         title="Rút Tiền"
         @click="ruttien"
+        :class="{ on: this.BatDau }"
       ></i>
     </div>
   </div>
@@ -155,5 +158,20 @@ export default {
 .disabledBatDau {
   pointer-events: none;
   opacity: 0.5;
+  /* cursor: not-allowed; */
+}
+
+.napTien,
+.rutTien,
+.choiLai {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.napTien.on,
+.rutTien.on,
+.choiLai.on {
+  pointer-events: auto;
+  opacity: 1;
 }
 </style>

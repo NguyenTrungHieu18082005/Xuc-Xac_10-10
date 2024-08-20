@@ -135,9 +135,10 @@ export default {
 
       ThoiGianVanMoi: 5,
       ThoiGianQuayXucXac: 5,
-      ThoiGian: 6,
+      ThoiGian: 60,
+      ThoiGianDuocSua: null,
       BuffTienMin: 1000,
-      BuffTienMax: 5000000,
+      BuffTienMax: 30000000,
 
       ArraySetInterval: [],
     };
@@ -169,38 +170,82 @@ export default {
       return Math.floor(Math.random() * 10) + 1;
     },
     KetQuaQuay() {
-      if (this.sumDices >= 4 && this.sumDices <= 10) {
+      if (this.sumDices <= 10) {
         this.KQ = "xiu";
         if (this.HienThiTienDaCuoc[1] === 3) {
-          let tienThuong1 = Math.ceil(1.95 * this.TienCuoc);
-          this.TongTien += tienThuong1;
-          this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
-          this.HienThiTienThuong = tienThuong1.toLocaleString("vi-VN", {});
+          this.CongTienThang();
         }
-      } else if (this.sumDices >= 11 && this.sumDices <= 17) {
+      } else if (this.sumDices >= 11) {
         this.KQ = "tai";
         if (this.HienThiTienDaCuoc[0] === 2) {
-          let tienThuong2 = Math.ceil(1.95 * this.TienCuoc);
-          this.TongTien += tienThuong2;
-          this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
-          this.HienThiTienThuong = tienThuong2.toLocaleString("vi-VN", {});
+          this.CongTienThang();
         }
       }
     },
     xl010() {
       this.ThangThua();
     },
+    CongTienThang() {
+      let tienThuong = Math.ceil(1.95 * this.TienCuoc);
+      this.TongTien += tienThuong;
+      this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
+      this.HienThiTienThuong = tienThuong.toLocaleString("vi-VN", {});
+    },
     xl100() {
-      if (this.HienThiTienDaCuoc[1] === 2) {
+      console.log(" ");
+
+      if (this.HienThiTienDaCuoc[0] === 2) {
+        console.log("Tai: " + this.arrayTai);
+
         this.Dices = [this.arrayTai[0], this.arrayTai[1], this.arrayTai[2]];
+        console.log("dices tai2: " + this.Dices);
+
         this.KQ = "tai";
         console.log("tai thang");
+        this.CongTienThang();
       } else {
+        console.log("Xiu: " + this.arrayXiu);
+
         this.Dices = [this.arrayXiu[0], this.arrayXiu[1], this.arrayXiu[2]];
+        console.log("dices xiu2: " + this.Dices);
+
         this.KQ = "xiu";
         console.log("xiu thang");
+        this.CongTienThang();
       }
     },
+    QuayBuffXucXac() {
+      console.log("quay xuc xac");
+      console.log("Dices: " + this.Dices);
+      console.log("arrayTai: " + this.arrayTai);
+      console.log("arrayXiu: " + this.arrayXiu);
+      console.log("Length Tai: " + this.arrayTai.length);
+      console.log("Length Xiu: " + this.arrayXiu.length);
+
+      let d = 1;
+      let qxx = setInterval(() => {
+        let d1 = Math.floor(Math.random() * 6) + 1;
+        let d2 = Math.floor(Math.random() * 6) + 1;
+        let d3 = Math.floor(Math.random() * 6) + 1;
+        let sum = d1 + d2 + d3;
+
+        if (sum >= 11 && this.arrayTai.length < 3) {
+          this.arrayTai.push(d1, d2, d3);
+          console.log(`arrayTai(${d++}): ` + this.arrayTai + " = " + sum);
+        } else if (sum <= 10 && this.arrayXiu.length < 3) {
+          this.arrayXiu.push(d1, d2, d3);
+          console.log(`arrayXiu(${d++}): ` + this.arrayXiu + " = " + sum);
+        }
+
+        if (this.arrayTai.length >= 3 && this.arrayXiu.length >= 3) {
+          clearInterval(qxx);
+          console.log(
+            `Final Result: Tai - ${this.arrayTai.length}, Xiu - ${this.arrayXiu.length}`
+          );
+        }
+      }, 100);
+    },
+
     xl91(so) {
       console.log("so: " + so);
       if (so <= 9) {
@@ -284,20 +329,18 @@ export default {
     ThangThua() {
       console.log("vao thangthua");
       let qxx = setInterval(() => {
-        let d1 = Math.floor(Math.random() * 6) + 1;
-        let d2 = Math.floor(Math.random() * 6) + 1;
-        let d3 = Math.floor(Math.random() * 6) + 1;
+        let s1 = Math.floor(Math.random() * 6) + 1;
+        let s2 = Math.floor(Math.random() * 6) + 1;
+        let s3 = Math.floor(Math.random() * 6) + 1;
 
-        let sum = d1 + d2 + d3;
+        let sum = s1 + s2 + s3;
         if (sum > 10 && this.arrayTai.length < 3) {
-          this.arrayTai.push(d1);
-          this.arrayTai.push(d2);
-          this.arrayTai.push(d3);
-        } else if (sum < 11 && this.arrayXiu < 3) {
-          this.arrayXiu.push(d1);
-          this.arrayXiu.push(d2);
-          this.arrayXiu.push(d3);
-        } else if (this.arrayTai.length > 3 && this.arrayXiu > 3) {
+          this.arrayTai.push(s1, s2, s3);
+        } else if (sum < 11 && this.arrayXiu.length < 3) {
+          this.arrayXiu.push(s1, s2, s3);
+        }
+
+        if (this.arrayTai.length >= 3 && this.arrayXiu.length >= 3) {
           clearInterval(qxx);
         }
       }, 100);
@@ -332,7 +375,7 @@ export default {
         this.TongTien = doiSangNumber;
         this.TongTienString = this.TongTien.toLocaleString("vi-VN", {});
       } else if (id === 2) {
-        this.ThoiGian = doiSangNumber1;
+        this.ThoiGianDuocSua = doiSangNumber1;
       } else if (id === 3) {
         this.BuffTienMin = doiSangNumber;
       } else if (id === 4) {
@@ -429,22 +472,15 @@ export default {
       let tg = setInterval(() => {
         if (this.ThoiGian-- === 1) {
           if (this.DatCuoc === false) {
-            console.log("vao");
-
             this.TongTien += this.TienCuoc;
           }
-          console.log("het thoig gian");
-          console.log("tong tien: " + this.TongTien);
-          console.log("tiencuoc: " + this.TienCuoc);
+          // console.log("het thoig gian");
+          // console.log("tong tien: " + this.TongTien);
+          // console.log("tiencuoc: " + this.TienCuoc);
 
           clearInterval(tg);
           this.TatHienThiThoiGian = !this.TatHienThiThoiGian;
           this.quayXucXac(this.ThoiGianQuayXucXac * 2);
-
-          // if (this.KieuHack === "thuong") {
-          //   console.log("thuong ");
-          // } else if (this.KieuHack === "buff") {
-          //   console.log("buff");
 
           this.ThoiGian = ThoiGian2;
         }
@@ -503,6 +539,7 @@ export default {
       let { ThoiGianQuayXucXac } = this;
       ThoiGianQuayXucXac = time;
       this.xlHetThoiGian();
+      this.QuayBuffXucXac();
 
       let qxx = setInterval(() => {
         let d1 = Math.floor(Math.random() * 6) + 1;
@@ -584,10 +621,13 @@ export default {
           } else if (this.KieuHack === "10/0") {
             console.log("10/0");
             if (this.TienCuoc > 0) {
+              console.log("da cuoc");
               this.xl100();
             } else {
+              console.log("khong cuoc");
               this.KetQuaQuay();
             }
+            console.log(" ");
           } else if (this.KieuHack === "7/3") {
             console.log("7/3");
             if (this.TienCuoc > 0) {
@@ -606,8 +646,10 @@ export default {
             console.log("0/10");
             if (this.TienCuoc > 0) {
               this.xl010();
+              console.log("xl010");
             } else {
               this.KetQuaQuay();
+              console.log("thuong");
             }
           }
 
@@ -636,6 +678,12 @@ export default {
       let tgvm = setInterval(() => {
         this.ThoiGianVanMoi--;
         if (this.ThoiGianVanMoi === 0) {
+          if (this.ThoiGianDuocSua != null) {
+            this.ThoiGian = this.ThoiGianDuocSua;
+          }
+
+          this.arrayTai = [];
+          this.arrayXiu = [];
           this.DatCuoc = false;
           this.HienThiTienThuong = null;
           this.KQ = "";
@@ -708,7 +756,7 @@ export default {
       this.HienThiThoiGianVanMoi = false;
       this.TatHienThiThoiGian = false;
       this.openLuatChoi = false;
-      this.BatDau = false;
+      // this.BatDau = false;
       this.Dices = [3, 4, 6];
       this.ThoiGianVanMoi = 5;
       this.ThoiGianQuayXucXac = 5;

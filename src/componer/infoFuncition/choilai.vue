@@ -61,7 +61,7 @@ export default {
       let start = setInterval(() => {
         if (this.TimeLuotChoiLai-- <= 1) {
           clearInterval(start);
-          this.$emit("xlTangLuot");
+          this.$emit("xlTangLuot", "choilai");
           this.TimeLuotChoiLai = this.tinhSoPhutRaGiay(15);
           this.startDem();
         }

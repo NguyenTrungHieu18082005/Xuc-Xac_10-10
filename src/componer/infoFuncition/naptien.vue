@@ -42,7 +42,7 @@ export default {
     return {
       Tien: 1000,
       XacNhanNap: false,
-      TimeLuotNap: this.tinhSoPhutRaGiay(15), // 0.1 = 6s, 1 = 1p, 10 = 10p
+      TimeLuotNap: this.tinhSoPhutRaGiay(14.5), // 0.1 = 6s, 1 = 1p, 10 = 10p
     };
   },
   props: {
